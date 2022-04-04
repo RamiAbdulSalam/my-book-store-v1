@@ -1,4 +1,5 @@
 using FirstCoreWebAPIApplication.Data;
+using FirstCoreWebAPIApplication.Data.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,7 +34,10 @@ namespace FirstCoreWebAPIApplication
 
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
-                
+            services.AddTransient<BookServices>();
+            services.AddTransient<AuthorService>();
+            services.AddTransient<PublisherService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FirstCoreWebAPIApplication", Version = "v1" });

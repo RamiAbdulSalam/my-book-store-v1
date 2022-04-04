@@ -17,5 +17,10 @@ namespace FirstCoreWebAPIApplication.Data.Models
         public string Genre { get; set; }
         public DateTime DateAdded { get; set; }
 
+
+        // Navigation Property
+        public int PublisherId { get; set; }
+        public Publisher Publisher { get; set; }
+        public List<Book_Author> Book_Authors { get; set; }
     }
 }

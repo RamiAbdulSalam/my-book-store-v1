@@ -11,7 +11,14 @@ namespace FirstCoreWebAPIApplication.Data
     {
         public static void Seed(IApplicationBuilder applicationBuilder)
         {
-            // Scope with App Services
+            SeedBook(applicationBuilder);
+            SeedPublisher(applicationBuilder);
+            SeedAuthor(applicationBuilder);
+        }
+
+        public static void SeedBook(IApplicationBuilder applicationBuilder)
+        {
+            //Scope with App Services
             using (var ServiceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
                 // get db
@@ -27,7 +34,8 @@ namespace FirstCoreWebAPIApplication.Data
                         DateRead = DateTime.Now,
                         Genre = "Comdey",
                         IsRead = true,
-                        Rate = 6
+                        Rate = 6,
+                        PublisherId = 1
                     },
                         new Models.Books()
                         {
@@ -36,10 +44,53 @@ namespace FirstCoreWebAPIApplication.Data
                             CoverUrl = "Https....",
                             DateAdded = DateTime.Now.AddDays(-5),
                             Genre = "Comdey",
-                            IsRead = false
+                            IsRead = false,
+                            PublisherId = 1
                         });
                     context.SaveChanges();
-                
+
+                }
+            }
+        }
+
+        public static void SeedPublisher(IApplicationBuilder applicationBuilder)
+        {
+            using (var ServiceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var context = ServiceScope.ServiceProvider.GetService<AppDbContext>();
+                if (!context.Publishers.Any())
+                {
+                    context.Publishers.AddRange(new Models.Publisher()
+                    {
+                        Name = "Publisher 1 "
+                    },
+                        new Models.Publisher()
+                        {
+                            Name = "Publisher 2 "
+                        });
+                    context.SaveChanges();
+
+                }
+            }
+        }
+
+        public static void SeedAuthor(IApplicationBuilder applicationBuilder)
+        {
+            using (var ServiceScope = applicationBuilder.ApplicationServices.CreateScope())
+            {
+                var context = ServiceScope.ServiceProvider.GetService<AppDbContext>();
+                if (!context.Authors.Any())
+                {
+                    context.Authors.AddRange(new Models.Author()
+                    {
+                        FullName = "Author 1 "
+                    },
+                        new Models.Author()
+                        {
+                            FullName = "Author 2 "
+                        });
+                    context.SaveChanges();
+
                 }
             }
         }
